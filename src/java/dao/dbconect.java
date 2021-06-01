@@ -12,13 +12,14 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  * @author andre
  */
 public class dbconect {
-    public DriverManagerDataSource conectar (){
+
+    public DriverManagerDataSource conectar() {
         DriverManagerDataSource datasource = new DriverManagerDataSource();
         datasource.setDriverClassName("com.mysql.jdbc.Driver");
-        datasource.setUrl("jdbc:mysql://localhost/dbgreenground");
+        datasource.setUrl("jdbc:mysql://localhost/greenground");
         datasource.setUsername("root");
         datasource.setPassword("");
-        
+
         return datasource;
     }
 }

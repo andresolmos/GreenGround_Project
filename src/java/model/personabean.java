@@ -14,7 +14,7 @@ import javax.ejb.Stateless;
 @Stateless
 public class personabean {
 
-    private int usu_id_usuario ;
+    private int usu_id_usuario;
     private String usu_nombre_usuario;
     private String usu_apellido_usuario;
     private String usu_correo_vendedor;
@@ -49,8 +49,6 @@ public class personabean {
         this.confirm = confirm;
     }
 
-
-
     public String getRec() {
         return rec;
     }
@@ -58,7 +56,7 @@ public class personabean {
     public void setRec(String rec) {
         this.rec = rec;
     }
-    
+
     public int getUsu_id_usuario() {
         return usu_id_usuario;
     }
@@ -122,5 +120,5 @@ public class personabean {
     public void setRol(String rol) {
         this.rol = rol;
     }
-    
+
 }
