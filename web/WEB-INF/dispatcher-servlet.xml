@@ -27,6 +27,7 @@
                 <prop key="sub/remenber.htm">homecontroller</prop>
                 <prop key="sub/updatepass.htm">homecontroller</prop>
                 <prop key="sub/uppass.htm">homecontroller</prop>
+                <prop key="sub/modinfo.htm">homecontroller</prop>
                 <prop key="sub/buyer.htm">carcontroller</prop>
                 <prop key="sub/car.htm">carcontroller</prop>
                 <prop key="sub/shopcar.htm">carcontroller</prop>
@@ -34,6 +35,13 @@
                 <prop key="sub/decar.htm">carcontroller</prop>
                 <prop key="sub/elicar.htm">carcontroller</prop>
                 <prop key="sub/segcar.htm">carcontroller</prop>
+                <prop key="sub/genbuy.htm">carcontroller</prop>
+                <prop key="sub/showbuy.htm">carcontroller</prop>
+                
+                <prop key="sub/addprod.htm">ControllerProduct</prop>
+                <prop key="sub/modprod.htm">ControllerProduct</prop>
+                <prop key="sub/delprod.htm">ControllerProduct</prop>
+                <prop key="sub/sellprods.htm">ControllerProduct</prop>
             </props>
         </property>
     </bean>
@@ -46,6 +54,7 @@
     <!--
     The index controller.
     -->
+    <bean name="ControllerProduct" class="controller.ControllerProduct"/>
     <bean name="carcontroller" class="controller.carcontroller"/>
     <bean name="homecontroller" class="controller.homecontroller"/>
      <bean name="indexController"

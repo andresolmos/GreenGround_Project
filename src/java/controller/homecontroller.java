@@ -5,10 +5,11 @@
  */
 package controller;
 
+import dao.DaoProduct;
 import dao.cardao;
-import model.personavalidationbean;
+import validation.personavalidationbean;
 import dao.clidao;
-import dao.dbconect;
+import dbconect.dbconect;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -81,7 +81,7 @@ public class homecontroller {
                 mav.setViewName("redirect:/sub/login.htm");
                 return mav;
             } else {
-                mav.addObject("asa", "ya existe un usuario registrado con ese correo");
+                mav.addObject("asa", "Ya existe un usuario registrado con ese correo");
                 mav.setViewName("/sub/register");
                 return mav;
             }
@@ -117,14 +117,18 @@ public class homecontroller {
             List astra = clida.consultarcliente(nombre, apellido);
 
             if (astra == null || astra.isEmpty()) {
-                mav.addObject("as", "contraseña o correo incorrecto");
+                mav.addObject("as", "Datos Incorrectos");
                 mav.setViewName("sub/login");
                 return mav;
             } else {
-                if ("vendedor".equals(rol)) {
+                if("vendedor".equals(rol)) {
+                    DaoProduct DaoProduct = new DaoProduct();
+                    mav.addObject("Product", new Product());
+                    mav.addObject("person", astra);
+                    mav.addObject("product", DaoProduct.viewAllProducts(nombre, apellido));
                     mav.setViewName("sub/seller");
                     return mav;
-                } else {
+                }else{
                     mav.addObject("Product", new Product());
                     mav.addObject("person", astra);
                     mav.addObject("product", carda.testprod());
@@ -154,11 +158,11 @@ public class homecontroller {
         if (!correo.equals("")) {
             List astra = clida.busreccliente(correo);
             clida.reccliente(correo, rec);
-            String asunto = "correo de recuperacion";
-            String cuerpo = "usted ha intentado recuperar su contraseña la cual es "
-                    + "{-[" + rec + "]-} por favor regrese a la pagina y cambie su contraseña";
+            String asunto = "CORREO DE RECUPERACION || GreenGround";
+            String cuerpo = "El codigo de recuperacion para cambio de clave es: "
+                    + "---" + rec + "---, Por favor regrese a la pagina y cambie su contraseña";
             if (astra == null || astra.isEmpty()) {
-                mav.addObject("asa", "el correo del usuario no existe");
+                mav.addObject("asa", "El correo del usuario no existe");
                 mav.setViewName("sub/remenber");
                 return mav;
             } else {
@@ -167,7 +171,7 @@ public class homecontroller {
                 return mav;
             }
         } else {
-            mav.addObject("asa", "el espacio esta vacio");
+            mav.addObject("asa", "El espacio esta vacio");
             mav.setViewName("sub/remenber");
             return mav;
         }
@@ -203,5 +207,52 @@ public class homecontroller {
             mav.setViewName("sub/uppass");
             return mav;
         }
+    }
+    @RequestMapping(value = "sub/modinfo.htm", method = RequestMethod.GET)
+    public ModelAndView acttclient(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+        int id = Integer.parseInt(request.getParameter("idusu"));
+        int idpro = Integer.parseInt(request.getParameter("idpro"));
+        personabean personabean = this.cargarclientebypassandmail(id);
+        mav.addObject("personabean",new personabean(id,idpro,personabean.getUsu_nombre_usuario(),personabean.getUsu_apellido_usuario()
+        ,personabean.getNum_cel(),personabean.getUsu_dir()));
+        mav.setViewName("sub/modprod");
+        return mav;
+    }
+
+    @RequestMapping(value = "sub/modinfo.htm", method = RequestMethod.POST)
+    public ModelAndView modclient(@ModelAttribute("personabean") personabean personabean,
+            BindingResult result,
+            SessionStatus status) {
+            ModelAndView mav = new ModelAndView();
+            clidao clidao =new clidao();
+            int idprod = personabean.getIdProducto();
+            String nombre = personabean.getUsu_nombre_usuario();
+            String apellido = personabean.getUsu_apellido_usuario();
+            String celular = personabean.getNum_cel();
+            String dir =personabean.getUsu_dir();
+            int id = personabean.getUsu_id_usuario();
+            clidao.modicliente(nombre, apellido, celular, dir, id);
+            mav.setViewName("redirect:/sub/genbuy.htm?idcomp="+id+"&idcomp="+idprod);
+            return mav;
+        
+    }
+    
+    public personabean cargarclientebypassandmail(int id) {
+        final personabean personabean = new personabean();
+        String sql = "select * from tbusuario where usu_id_usuario  = '" + id ;
+        return (personabean) jdbcTemplate.query(sql, new ResultSetExtractor<personabean>() {
+            public personabean extractData(ResultSet rs) throws SQLException, DataAccessException {
+                if (rs.next()) {
+                    personabean.setUsu_nombre_usuario(rs.getString("usu_nombre"));
+                    personabean.setUsu_apellido_usuario(rs.getString("usu_apellido"));
+                    personabean.setNum_cel(rs.getString("num_cel"));
+                    personabean.setUsu_dir(rs.getString("usu_dir"));
+                }
+                return personabean;
+            }
+
+        }
+        );
     }
 }

@@ -5,6 +5,7 @@
  */
 package dao;
 
+import dbconect.dbconect;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -32,10 +33,17 @@ public class clidao {
      * @return retorna una lista
      * @author Andres Olmos
      */
+    
+    public void modicliente(String nonbre, String apellido, String celular, String direccion ,int id) {
+        this.jdbctemplate = new JdbcTemplate(con.conectar());
+        String sql = "UPDATE tbusuario SET usu_nombre = '"+nonbre+"', usu_apellido = '"+apellido+"' ,num_cel = '"+celular+"',usu_dir = '"+direccion+"' WHERE usu_id_usuario= "+id+"";
+        this.jdbctemplate.update(sql);
+    }
+    
     public List consultarcliente(String nonbre, String apellido) {
         List personabean = new ArrayList();
         this.jdbctemplate = new JdbcTemplate(con.conectar());
-        String sql = "select * from tbusuario where usu_correo_vendedor = '" + nonbre + "' and contrasena = '" + apellido + "' ";
+        String sql = "select * from tbusuario where usu_correo = '" + nonbre + "' and usu_contrasena = '" + apellido + "' ";
         personabean = this.jdbctemplate.queryForList(sql);
         return personabean;
     }
@@ -62,14 +70,14 @@ public class clidao {
      */
     public void actcliente(String nonbre, String apellido, String celular, String correo, String contrasena, String direccion) {
         this.jdbctemplate = new JdbcTemplate(con.conectar());
-        String sql = "insert into tbusuario (usu_nombre_usuario,usu_apellido_usuario,num_cel,usu_correo_vendedor,contrasena,usu_dir,recuperacion) values ('" + nonbre + "','" + apellido + "','" + celular + "','" + correo + "','" + contrasena + "','" + direccion + "','0')";
+        String sql = "insert into tbusuario (usu_nombre,usu_apellido,num_cel,usu_correo,usu_contrasena,usu_dir,usu_Recuperacion) values ('" + nonbre + "','" + apellido + "','" + celular + "','" + correo + "','" + contrasena + "','" + direccion + "','0')";
         this.jdbctemplate.update(sql);
     }
 
     public List validaregister(String nonbre) {
         List personabean = new ArrayList();
         this.jdbctemplate = new JdbcTemplate(con.conectar());
-        String sql = "select * from tbusuario where usu_correo_vendedor = '" + nonbre + "'  ";
+        String sql = "select * from tbusuario where usu_correo = '" + nonbre + "'  ";
         personabean = this.jdbctemplate.queryForList(sql);
         return personabean;
 
@@ -82,7 +90,7 @@ public class clidao {
      */
     public void modcliente(String contrasena, String recuperacion) {
         this.jdbctemplate = new JdbcTemplate(con.conectar());
-        String sql = "update tbusuario set contrasena = '" + contrasena + "'  where recuperacion = '" + recuperacion + "' ";
+        String sql = "update tbusuario set usu_contrasena = '" + contrasena + "'  where usu_Recuperacion = '" + recuperacion + "' ";
         this.jdbctemplate.update(sql);
     }
 
@@ -94,14 +102,14 @@ public class clidao {
      */
     public void reccliente(String id, String recuperacion) {
         this.jdbctemplate = new JdbcTemplate(con.conectar());
-        String sql = "update  tbusuario set recuperacion = '" + recuperacion + "' where usu_correo_vendedor = '" + id + "'";
+        String sql = "update  tbusuario set usu_Recuperacion = '" + recuperacion + "' where usu_correo = '" + id + "'";
         this.jdbctemplate.update(sql);
     }
 
     public List busreccliente(String id) {
         List personabean = new ArrayList();
         this.jdbctemplate = new JdbcTemplate(con.conectar());
-        String sql = "select * from tbusuario where usu_correo_vendedor = '" + id + "'";
+        String sql = "select * from tbusuario where usu_correo = '" + id + "'";
         personabean = this.jdbctemplate.queryForList(sql);
         return personabean;
     }
@@ -120,11 +128,11 @@ public class clidao {
     public void enviarConGMail(String destinatario, String asunto, String cuerpo) {
         // Esto es lo que va delante de @gmail.com en tu cuenta de correo. Es el remitente también.
 
-        String remitente = "Beemarking@gmail.com";
+        String remitente = "greengroundcol@gmail.com";
         Properties props = System.getProperties();
         props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
         props.put("mail.smtp.user", remitente);
-        props.put("mail.smtp.clave", "BeeMark2020");    //La clave de la cuenta
+        props.put("mail.smtp.clave", "GreenGround21");    //La clave de la cuenta
         props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
         props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
         props.put("mail.smtp.port", "587"); //El puerto SMTP seguro de Google
@@ -138,7 +146,7 @@ public class clidao {
             message.setSubject(asunto);
             message.setText(cuerpo);
             Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.gmail.com", remitente, "BeeMark2020");
+            transport.connect("smtp.gmail.com", remitente, "GreenGround21");
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
         } catch (MessagingException me) {

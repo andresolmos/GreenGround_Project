@@ -5,9 +5,14 @@
  */
 package dao;
 
+import com.mysql.jdbc.Statement;
+import dbconect.dbconect;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 /**
  *
@@ -17,7 +22,7 @@ public class cardao {
 
     JdbcTemplate jdbctemplate;
     dbconect con = new dbconect();
-
+    
     public List testprod() {
         List Product = new ArrayList();
         this.jdbctemplate = new JdbcTemplate(con.conectar());
@@ -28,13 +33,23 @@ public class cardao {
 
     public void addcar(int id, int idpro, String nonbre, int stock, String Descripcion, double Precio) {
         this.jdbctemplate = new JdbcTemplate(con.conectar());
-        String sql = "insert into tbcarrito (usu_id_usuario,IdProducto,Nombre,Descripcion,Precio,stock,Foto,Cantidad) values (" + id + "," + idpro + ",'" + nonbre + "','" + Descripcion + "'," + Precio + "," + stock + ",'0',1)";
+        String sql = "insert into tbcarrito (usu_id_usuario,IdProducto,Car_Nombre,Car_Descripcion,Car_Precio,Car_stock,Car_Foto,Car_cantidad) values (" + id + "," + idpro + ",'" + nonbre + "','" + Descripcion + "'," + Precio + "," + stock + ",'0',1)";
         this.jdbctemplate.update(sql);
     }
 
+    public void upshop(int Cantidad, double Precio,int idven, int idpro, int idcliente) {
+        Calendar fecha = new GregorianCalendar();
+        int ano = fecha.get(Calendar.YEAR);
+        int mes = fecha.get(Calendar.MONTH);
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        this.jdbctemplate = new JdbcTemplate(con.conectar());
+        String sql = "insert into tbcompras (IdCliente,Shop_fecha,Shop_monto,shop_Estado,idVendedor,IdProducto,shop_cantidad) values ("+idcliente+",'"+ano+"-"+(mes+1)+"-"+dia+"',"+Precio+",'cancelado en envio',"+idven+","+idpro+","+Cantidad+")";
+        this.jdbctemplate.update(sql);
+    }
+    
     public void addupcar(int Cantidad, double Precio, int idpro, int id) {
         this.jdbctemplate = new JdbcTemplate(con.conectar());
-        String sql = "update tbcarrito set Cantidad = " + Cantidad + ",Precio = " + Precio + "  where 	IdProducto  = " + idpro + " and usu_id_usuario = " + id;
+        String sql = "update tbcarrito set Car_cantidad = " + Cantidad + ",Car_Precio = " + Precio + "  where 	IdProducto  = " + idpro + " and usu_id_usuario = " + id;
         this.jdbctemplate.update(sql);
     }
 
@@ -65,7 +80,7 @@ public class cardao {
     public List sum(int idusu) {
         List Product = new ArrayList();
         this.jdbctemplate = new JdbcTemplate(con.conectar());
-        String sql = "select sum(Precio) as Precio ,usu_id_usuario from tbcarrito where usu_id_usuario ="+idusu;
+        String sql = "select sum(Car_Precio) as Precio ,usu_id_usuario,count(usu_id_usuario) as size from tbcarrito where usu_id_usuario ="+idusu;
         Product = this.jdbctemplate.queryForList(sql);
         return Product;
     }

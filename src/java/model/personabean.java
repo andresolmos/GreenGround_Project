@@ -15,6 +15,7 @@ import javax.ejb.Stateless;
 public class personabean {
 
     private int usu_id_usuario;
+    private int idProducto;
     private String usu_nombre_usuario;
     private String usu_apellido_usuario;
     private String usu_correo_vendedor;
@@ -28,8 +29,9 @@ public class personabean {
     public personabean() {
     }
 
-    public personabean(int usu_id_usuario, String usu_nombre_usuario, String usu_apellido_usuario, String usu_correo_vendedor, String num_cel, String contrasena, String usu_dir, String rol, String rec, String confirm) {
+    public personabean(int usu_id_usuario, int idProducto, String usu_nombre_usuario, String usu_apellido_usuario, String usu_correo_vendedor, String num_cel, String contrasena, String usu_dir, String rol, String rec, String confirm) {
         this.usu_id_usuario = usu_id_usuario;
+        this.idProducto = idProducto;
         this.usu_nombre_usuario = usu_nombre_usuario;
         this.usu_apellido_usuario = usu_apellido_usuario;
         this.usu_correo_vendedor = usu_correo_vendedor;
@@ -40,6 +42,31 @@ public class personabean {
         this.rec = rec;
         this.confirm = confirm;
     }
+
+    public personabean(int usu_id_usuario, int idProducto, String usu_nombre_usuario, String usu_apellido_usuario, String num_cel, String usu_dir) {
+        this.usu_id_usuario = usu_id_usuario;
+        this.idProducto = idProducto;
+        this.usu_nombre_usuario = usu_nombre_usuario;
+        this.usu_apellido_usuario = usu_apellido_usuario;
+        this.num_cel = num_cel;
+        this.usu_dir = usu_dir;
+    }
+
+    
+    
+    
+    
+    
+
+    public int getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(int idProducto) {
+        this.idProducto = idProducto;
+    }
+
+    
 
     public String getConfirm() {
         return confirm;

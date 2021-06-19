@@ -5,15 +5,18 @@
  */
 package controller;
 
+import dao.DaoProduct;
 import dao.cardao;
 import dao.clidao;
-import dao.dbconect;
+import dbconect.dbconect;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ListIterator;
 import javax.servlet.http.HttpServletRequest;
 import model.Product;
+import model.personabean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -210,6 +213,58 @@ public class carcontroller {
         }
 
     }
+    
+    @RequestMapping(value = "sub/showbuy.htm", method = RequestMethod.GET)
+    public ModelAndView showbuy(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView();
+        int id = Integer.parseInt(request.getParameter("idusu"));
+        cardao carda = new cardao();
+        clidao clida = new clidao();
+        DaoProduct prod = new DaoProduct();
+        List astra = carda.searchitem(id);
+        int o = 1;
+        do {
+            int idpro = Integer.parseInt(request.getParameter("idpro_"+o));
+            Product Product = this.cargarusuariobyid(idpro);
+            Product carrito = this.cargarclientebyidcar(id);
+            int stock =Product.getStock() - carrito.getCantidad();
+            carda.upshop(carrito.getCantidad(), carrito.getPrecio(), Product.getId_usu(), idpro, id);
+            prod.updatestock(idpro, Product.getId_usu(), stock);
+            carda.deleitemcar(id, idpro);
+            String asunto = "AVISO DE COMPRA || GreenGround";
+            String cuerpo = "Se ha realizado la compra a uno de los productos que publico, el cual es "+Product.getNombre()+""
+                    + ", se le compro una cantidad de "+carrito.getCantidad()+" y el total que le deben cancelar es: $"+carrito.getPrecio() ;
+            clida.enviarConGMail(Product.getUsu_correo_vendedor(), asunto, cuerpo);
+             o = o +1;
+        } while (o == astra.size());
+        
+        mav.addObject("product", new Product());
+        mav.setViewName("sub/showbuy");
+        return mav;
+    }
+    
+    
+     public Product cargarusuariobyid(int id) {
+        final Product Product = new Product();
+        String sql = "SELECT * FROM tbproducto INNER JOIN tbusuario ON tbproducto.usu_id = tbusuario.usu_id_usuario WHERE IdProducto =" + id;
+        return (Product) jdbcTemplate.query(sql, new ResultSetExtractor<Product>() {
+            public Product extractData(ResultSet rs) throws SQLException, DataAccessException {
+                if (rs.next()) {
+                    Product.setId_usu(rs.getInt("usu_id"));
+                    Product.setUsu_correo_vendedor(rs.getString("usu_correo"));
+                    Product.setIdProducto(rs.getInt("IdProducto"));
+                    Product.setNombre(rs.getString("Pro_Nombre"));
+                    Product.setDescripcion(rs.getString("Pro_Descripcion"));
+                    Product.setPrecio(rs.getDouble("Pro_Precio"));
+                    Product.setStock(rs.getInt("Pro_Stock"));
+                }
+                return Product;
+            }
+
+        }
+        );
+    }
+    
 
     public Product cargarclientebyid(int id) {
         final Product Product = new Product();
@@ -218,10 +273,10 @@ public class carcontroller {
             public Product extractData(ResultSet rs) throws SQLException, DataAccessException {
                 if (rs.next()) {
                     Product.setIdProducto(rs.getInt("IdProducto"));
-                    Product.setNombre(rs.getString("Nombre"));
-                    Product.setDescripcion(rs.getString("Descripcion"));
-                    Product.setPrecio(rs.getDouble("Precio"));
-                    Product.setStock(rs.getInt("Stock"));
+                    Product.setNombre(rs.getString("Pro_Nombre"));
+                    Product.setDescripcion(rs.getString("Pro_Descripcion"));
+                    Product.setPrecio(rs.getDouble("Pro_Precio"));
+                    Product.setStock(rs.getInt("Pro_Stock"));
                 }
                 return Product;
             }
@@ -229,6 +284,9 @@ public class carcontroller {
         }
         );
     }
+    
+    
+    
 
     public Product cargarclientebyidcar(int id, String tableid, int idusu) {
         final Product Product = new Product();
@@ -237,12 +295,12 @@ public class carcontroller {
             public Product extractData(ResultSet rs) throws SQLException, DataAccessException {
                 if (rs.next()) {
                     Product.setIdProducto(rs.getInt("IdProducto"));
-                    Product.setNombre(rs.getString("Nombre"));
-                    Product.setDescripcion(rs.getString("Descripcion"));
-                    Product.setPrecio(rs.getDouble("Precio"));
-                    Product.setStock(rs.getInt("Stock"));
-                    Product.setItem(rs.getInt("Item"));
-                    Product.setCantidad(rs.getInt("Cantidad"));
+                    Product.setNombre(rs.getString("Car_Nombre"));
+                    Product.setDescripcion(rs.getString("Car_Descripcion"));
+                    Product.setPrecio(rs.getDouble("Car_Precio"));
+                    Product.setStock(rs.getInt("Car_stock"));
+                    Product.setItem(rs.getInt("Car_Item"));
+                    Product.setCantidad(rs.getInt("Car_cantidad"));
                 }
                 return Product;
             }
@@ -250,5 +308,26 @@ public class carcontroller {
         }
         );
     }
+    public Product cargarclientebyidcar( int idusu) {
+        final Product Product = new Product();
+        String sql = "select * from tbcarrito where usu_id_usuario =" + idusu;
+        return (Product) jdbcTemplate.query(sql, new ResultSetExtractor<Product>() {
+            public Product extractData(ResultSet rs) throws SQLException, DataAccessException {
+                if (rs.next()) {
+                    Product.setIdProducto(rs.getInt("IdProducto"));
+                    Product.setNombre(rs.getString("Car_Nombre"));
+                    Product.setDescripcion(rs.getString("Car_Descripcion"));
+                    Product.setPrecio(rs.getDouble("Car_Precio"));
+                    Product.setStock(rs.getInt("Car_stock"));
+                    Product.setItem(rs.getInt("Car_Item"));
+                    Product.setCantidad(rs.getInt("Car_cantidad"));
+                }
+                return Product;
+            }
 
+        }
+        );
+    }
 }
+
+

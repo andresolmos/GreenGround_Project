@@ -1,0 +1,105 @@
+
+.tb1
+{
+    color: rgb(0, 0, 0);
+    text-align: center;
+    border-collapse: collapse; 
+    width: 50%; 
+    margin: 0 auto ; 
+}
+
+
+table 
+{ 
+    text-align: center;
+    border-collapse: collapse; 
+    width: 100%; 
+    margin: 0 auto ;    
+
+}
+th, td 
+{ 
+    padding: 1.0rem; 
+    font-size: 1.3rem; 
+    font-family: 'Changa', sans-serif;
+}
+tr 
+{
+    background: hsl(50, 50%, 80%); 
+}
+tr, td 
+{ 
+    transition: .2s ease-in; 
+    font-family: 'Changa', sans-serif;
+} 
+tr:first-child 
+{
+    background: #3d882e; 
+}
+tr:nth-child(even) 
+{ 
+    background: hsla(50, 50%, 80%, 0.7); 
+}
+td:empty 
+{
+    background: hsla(50, 25%, 60%, 0.7); 
+}
+tr:hover:not(#firstrow), tr:hover td:empty 
+{
+    background: rgb(58, 114, 70); pointer-events: visible;
+    color: hsla(50, 50%, 80%, 0.7);
+}
+tr:hover:not(#firstrow) 
+{ 
+    transform: scale(1.05); 
+    font-weight: 700; 
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+.user
+{
+    filter: drop-shadow(0 20px 30px rgb(0, 0, 0));
+}
+
+
+h1
+{
+    font-family: 'Changa', sans-serif;
+    font-size: 55px;
+    color: rgb(255, 255, 255);
+    text-shadow: -10px 20px 10px #0e0e0e
+}
+
+.wrap-user{
+	margin:auto;
+	max-width:1300px;
+	min-height:150px;
+	position:relative;
+    box-shadow:0 12px 15px 0 rgb(0, 0, 0),0 17px 50px 0 rgb(0, 0, 0);
+    background:rgba(40, 101, 76, 0.575);
+    padding:40px 40px 40px 40px;
+
+}
+
+button.botonA /*boton2*/
+{
+    background-color: #3d882e;
+    border-radius: 15px;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+
+}
+
+button.botonA:hover     /*boton2*/
+{
+    background-color: #629657;
+    transition-duration: 0.5s;
+}
+
+
+
+
+  

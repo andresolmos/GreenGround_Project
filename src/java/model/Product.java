@@ -1,6 +1,7 @@
 package model;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 
 public class Product {
 
@@ -16,11 +17,13 @@ public class Product {
     String usu_correo_vendedor;
     int id_usu;
     int cantidad_origin;
-
+    String pro_expiration_date;
+    String pro_batch_date;
+    
     public Product() {
     }
 
-    public Product(int Cantidad, int IdProducto, String Nombre, InputStream Foto, String Descripcion, double Precio, int Stock, int item, String contrasena, String usu_correo_vendedor, int id_usu, int cantidad_origin) {
+    public Product(int Cantidad, int IdProducto, String Nombre, InputStream Foto, String Descripcion, double Precio, int Stock, int item, String contrasena, String usu_correo_vendedor, int id_usu, int cantidad_origin, String pro_expiration_date, String pro_batch_date) {
         this.Cantidad = Cantidad;
         this.IdProducto = IdProducto;
         this.Nombre = Nombre;
@@ -33,7 +36,53 @@ public class Product {
         this.usu_correo_vendedor = usu_correo_vendedor;
         this.id_usu = id_usu;
         this.cantidad_origin = cantidad_origin;
+        this.pro_expiration_date = pro_expiration_date;
+        this.pro_batch_date = pro_batch_date;
     }
+
+    public Product(String nombre, String descripcion, LocalDate pro_expiration_date, LocalDate pro_batch_date, double precio, int stock) {
+        
+    }
+
+    public Product(String pro_Id, String nombre, String descripcion, LocalDate pro_expiration_date, LocalDate pro_batch_date, double precio, int stock) {
+        
+    }
+
+    public Product(int IdProducto, String Nombre, String Descripcion, double Precio, int Stock, int id_usu, String pro_expiration_date, String pro_batch_date) {
+        this.IdProducto = IdProducto;
+        this.Nombre = Nombre;
+        this.Descripcion = Descripcion;
+        this.Precio = Precio;
+        this.Stock = Stock;
+        this.id_usu = id_usu;
+        this.pro_expiration_date = pro_expiration_date;
+        this.pro_batch_date = pro_batch_date;
+    }
+
+    public Product(int idusu, int idProducto) {
+        this.id_usu = idusu;
+        this.IdProducto = idProducto;
+    }
+    
+    
+        
+    public String getPro_expiration_date() {
+        return pro_expiration_date;
+    }
+
+    public void setPro_expiration_date(String pro_expiration_date) {
+        this.pro_expiration_date = pro_expiration_date;
+    }
+
+    public String getPro_batch_date() {
+        return pro_batch_date;
+    }
+
+    public void setPro_batch_date(String pro_batch_date) {
+        this.pro_batch_date = pro_batch_date;
+    }
+
+    
 
     public int getCantidad_origin() {
         return cantidad_origin;

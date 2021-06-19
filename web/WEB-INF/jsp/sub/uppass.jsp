@@ -4,43 +4,42 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>GreenGround</title>
-        <link rel="stylesheet" href="../css/gg.css">
-        <link rel="stylesheet" href="../css/hola.css">
-        <script defer src="../js/hola.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <link href='<c:url value="../css/forgotpass.css" />' rel="stylesheet">                
+        <link href='<c:url value="../fonts/chela.css"/>' rel="stylesheet" >
+        <link href='<c:url value="../fonts/changa.css"/>' rel="stylesheet" >
+        <link href='<c:url value="../fontawesome/css/all.css"/>' rel="stylesheet" >
+
+        <title>Modificar Contraseña || GreenGround</title>
     </head>
     <body>
-        <hr><font color='#1E8449' style="font-family:Century;"> <CENTER><font size="6"><b>modificar contraseña</b></CENTER><hr><br></font>
-        <h1><c:out value="${asa}"></c:out></h1>
-        <form:form commandName="personabean">
-            <div class="form-group">
-            <form:label  path="contrasena" >contraseña Usuario </form:label>
-            <form:password cssClass="form-control" path="contrasena"></form:password>
-            <br>
-            </div>
-            <div class="form-group">
-            <form:label  path="confirm" >confirmar contraseña</form:label>
-            <form:password cssClass="form-control" path="confirm"></form:password>
-            <br>
-            </div>            
-            <div class="form-group">
-            <form:label  path="rec" >codigo de recuperacion</form:label>
-            <form:input cssClass="form-control" path="rec"></form:input>
-            <br>
-            </div>
-                 
-            <form:button name="enviar">enviar</form:button>
-        </form:form>
-              </font></center><br>
-            <div class="modal" id="modal">
-                <div class="modal-header">
-                    <div class="title">GreenGround</div>
-                    <button data-close-button class="close-button">&times;</button>
+    <br><br><br>
+    <CENTER><h1 class="tit"><b>Modificar tu Contraseña!</b></h1></CENTER>
+    <br><br> 
+    <h1><c:out value="${asa}"></c:out></h1>
+    <form:form commandName="personabean">
+        <div class="login-wrap">
+            <div class="login-html">
+                <div class="login-form">
+                    <br>
+                    <br>
+                    <div class="group">
+                        <form:label class="label" path="contrasena" >Contraseña Nueva </form:label><br>
+                        <form:password class="input" required="true" path="contrasena"></form:password>
+                    </div>
+                    <div class="group">
+                        <form:label class="label" path="confirm" >Confirme Contraseña Nueva </form:label><br>
+                        <form:password class="input" required="true" path="confirm"></form:password>
+                    </div>            
+                    <div class="group">
+                        <form:label class="label" path="rec" >Codigo de recuperacion (Enviado a su Email)</form:label><br>
+                        <form:input class="input" required="true" path="rec"></form:input>
+                    </div>
+                    <form:button name="enviar" class="button1">Recuperar</form:button>
+                    </div>
                 </div>
-
             </div>
-            <div id="overlay">
-
-            </div>
-    </body>
+    </form:form>
+</body>
 </html>
