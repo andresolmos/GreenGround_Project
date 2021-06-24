@@ -18,7 +18,7 @@
         <header>
             <div class="topnav" id="myTopnav">
                 <a class="active" href="index.htm" target="central"><i class="fas fa-store"></i> GreenGround <i class="fas fa-apple-alt"></i></a>
-                <a href="sub/stats.htm" target="central">Estadisticas <i class="fas fa-signal"></i></a>
+                <a href="sub/stats.htm" >Estadisticas <i class="fas fa-signal"></i></a>
                 <a class="active1" href="sub/register.htm"  style="float:right">Registrarme <i class="fas fa-user-plus"></i></a>
                 <a class="active1" href="sub/login.htm"  style="float:right">Inicio de Sesion <i class="fas fa-user-tie"></i></a>
                 <a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a>
@@ -38,10 +38,10 @@
                 <center><b>DESARROLLADORES</b></center>
             </div>
             <div class="productos">
-                <div class="columnas"><center>Jefferson Pulido</center></div>
+                <div class="columnas"><center>Juan David Paez</center></div>
                 <div class="columnas"><center>Santiago Monrroy</center></div>  
                 <div class="columnas"><center>Andres Olmos</center></div>  
-                <div class="columnas"><center>Juan David Paez</center></div>  
+                <div class="columnas"><center>Jefferson Pulido</center></div>  
                 
             </div>
         </section>

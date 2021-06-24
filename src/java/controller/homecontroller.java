@@ -57,8 +57,8 @@ public class homecontroller {
 
     @RequestMapping(value = "sub/register.htm", method = RequestMethod.POST)
     public ModelAndView addvlient(@ModelAttribute("personabean") personabean personabean,
-             BindingResult result,
-             SessionStatus status) {
+            BindingResult result,
+            SessionStatus status) {
         this.personavalidar.validate(personabean, result);
         if (result.hasErrors()) {
             ModelAndView mav = new ModelAndView();
@@ -99,8 +99,8 @@ public class homecontroller {
 
     @RequestMapping(value = "sub/login.htm", method = RequestMethod.POST)
     public ModelAndView adding(@ModelAttribute("personabean") personabean personabean,
-             BindingResult result,
-             SessionStatus status) {
+            BindingResult result,
+            SessionStatus status) {
         this.personavalidar.validate(personabean, result);
         if (result.hasErrors()) {
             ModelAndView mav = new ModelAndView();
@@ -121,14 +121,14 @@ public class homecontroller {
                 mav.setViewName("sub/login");
                 return mav;
             } else {
-                if("vendedor".equals(rol)) {
+                if ("Vendedor".equals(rol)) {
                     DaoProduct DaoProduct = new DaoProduct();
                     mav.addObject("Product", new Product());
                     mav.addObject("person", astra);
                     mav.addObject("product", DaoProduct.viewAllProducts(nombre, apellido));
                     mav.setViewName("sub/seller");
                     return mav;
-                }else{
+                } else {
                     mav.addObject("Product", new Product());
                     mav.addObject("person", astra);
                     mav.addObject("product", carda.testprod());
@@ -208,44 +208,85 @@ public class homecontroller {
             return mav;
         }
     }
-    @RequestMapping(value = "sub/modinfo.htm", method = RequestMethod.GET)
+
+    @RequestMapping(value = "sub/config.htm", method = RequestMethod.GET)
     public ModelAndView acttclient(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
-        int id = Integer.parseInt(request.getParameter("idusu"));
-        int idpro = Integer.parseInt(request.getParameter("idpro"));
-        personabean personabean = this.cargarclientebypassandmail(id);
-        mav.addObject("personabean",new personabean(id,idpro,personabean.getUsu_nombre_usuario(),personabean.getUsu_apellido_usuario()
-        ,personabean.getNum_cel(),personabean.getUsu_dir()));
-        mav.setViewName("sub/modprod");
+        int id = Integer.parseInt(request.getParameter("id"));
+        String rol = request.getParameter("rol");
+        personabean personabean = this.cargarclientebyid(id);
+        mav.addObject("rol", rol);
+        mav.addObject("id", id);
+        mav.addObject("personabean", new personabean(id, personabean.getUsu_nombre_usuario(), personabean.getUsu_apellido_usuario(), personabean.getUsu_correo_vendedor(), personabean.getUsu_dir(), personabean.getNum_cel()));
+        mav.setViewName("sub/config");
         return mav;
     }
 
-    @RequestMapping(value = "sub/modinfo.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "sub/config.htm", method = RequestMethod.POST)
     public ModelAndView modclient(@ModelAttribute("personabean") personabean personabean,
             BindingResult result,
             SessionStatus status) {
-            ModelAndView mav = new ModelAndView();
-            clidao clidao =new clidao();
-            int idprod = personabean.getIdProducto();
-            String nombre = personabean.getUsu_nombre_usuario();
-            String apellido = personabean.getUsu_apellido_usuario();
-            String celular = personabean.getNum_cel();
-            String dir =personabean.getUsu_dir();
-            int id = personabean.getUsu_id_usuario();
-            clidao.modicliente(nombre, apellido, celular, dir, id);
-            mav.setViewName("redirect:/sub/genbuy.htm?idcomp="+id+"&idcomp="+idprod);
+        ModelAndView mav = new ModelAndView();
+        clidao clidao = new clidao();
+        cardao carda = new cardao();
+        int id = personabean.getUsu_id_usuario();
+        String correo = personabean.getUsu_correo_vendedor();
+        String nombre = personabean.getUsu_nombre_usuario();
+        String apellido = personabean.getUsu_apellido_usuario();
+        String celular = personabean.getNum_cel();
+        String dir = personabean.getUsu_dir();
+        String rol = personabean.getRol();
+        clidao.modicliente(nombre, apellido, correo, celular, dir, id);
+        String table = "tbusuario";
+        String type = "usu_id_usuario";
+        List astra = carda.searchid(id, table, type);
+        if ("Vendedor".equals(rol)) {
+            DaoProduct DaoProduct = new DaoProduct();
+            mav.addObject("Product", new Product());
+            mav.addObject("person", astra);
+            mav.addObject("product", DaoProduct.viewAllProductsid(id));
+            mav.setViewName("sub/seller");
             return mav;
-        
+        } else {
+            mav.addObject("Product", new Product());
+            mav.addObject("person", astra);
+            mav.addObject("product", carda.testprod());
+            mav.setViewName("sub/buyer");
+            return mav;
+        }
+
     }
-    
-    public personabean cargarclientebypassandmail(int id) {
+
+    @RequestMapping(value = "sub/stats.htm", method = RequestMethod.GET)
+    public ModelAndView stats() {
+        ModelAndView mav = new ModelAndView();
+        clidao clidao = new clidao();
+        cardao carda = new cardao();
+        String columna = "SUM(tbcompras.Shop_monto) AS monto,Shop_fecha";
+        String column = "tbusuario.usu_nombre ,tbusuario.usu_apellido,tbusuario."
+                + "usu_correo,tbusuario.num_cel ,SUM(tbcompras.shop_cantidad) AS cantidad";
+        String condicionalsel = "group by idVendedor";
+        String condicionalbuy = "group by IdCliente";
+        String condicionalfech = "group by Shop_fecha";
+        mav.addObject("bestprod", clidao.mostseller());
+        mav.addObject("bestfech",clidao.statscompras(columna, condicionalfech));
+        mav.addObject("bestseller",clidao.statscompras(column, condicionalsel));
+        mav.addObject("amountcant", carda.testprod().size());
+        mav.addObject("amountusers", clidao.users().size());
+        mav.addObject("bestbuyer",clidao.statscompras(column, condicionalbuy));
+        mav.setViewName("sub/stats");
+        return mav;
+    }
+
+    public personabean cargarclientebyid(int id) {
         final personabean personabean = new personabean();
-        String sql = "select * from tbusuario where usu_id_usuario  = '" + id ;
+        String sql = "select * from tbusuario where usu_id_usuario  = " + id;
         return (personabean) jdbcTemplate.query(sql, new ResultSetExtractor<personabean>() {
             public personabean extractData(ResultSet rs) throws SQLException, DataAccessException {
                 if (rs.next()) {
                     personabean.setUsu_nombre_usuario(rs.getString("usu_nombre"));
                     personabean.setUsu_apellido_usuario(rs.getString("usu_apellido"));
+                    personabean.setUsu_correo_vendedor(rs.getString("usu_correo"));
                     personabean.setNum_cel(rs.getString("num_cel"));
                     personabean.setUsu_dir(rs.getString("usu_dir"));
                 }
@@ -255,4 +296,5 @@ public class homecontroller {
         }
         );
     }
+
 }

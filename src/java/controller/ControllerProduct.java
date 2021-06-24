@@ -51,6 +51,7 @@ public class ControllerProduct {
         ModelAndView mav = new ModelAndView();
         DaoProduct DaoProduct = new DaoProduct();
         int iduser = Integer.parseInt(request.getParameter("id"));
+        mav.addObject("id",iduser);
         mav.addObject("shop",DaoProduct.viewdshops(iduser));
         mav.addObject("product", new Product());
         mav.setViewName("sub/sellprods");
@@ -117,6 +118,7 @@ public class ControllerProduct {
         int idPro = Integer.parseInt(request.getParameter("idPro"));
         Product Product = this.updateProductGET(id, idPro);
         mav.addObject("product", new Product(idPro, Product.getNombre(), Product.getDescripcion(), Product.getPrecio(), Product.getStock(), id, Product.getPro_expiration_date(), Product.getPro_batch_date()));
+        mav.addObject("id", id);
         mav.setViewName("sub/modprod");
         return mav;
     }

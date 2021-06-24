@@ -43,14 +43,18 @@ public class personabean {
         this.confirm = confirm;
     }
 
-    public personabean(int usu_id_usuario, int idProducto, String usu_nombre_usuario, String usu_apellido_usuario, String num_cel, String usu_dir) {
-        this.usu_id_usuario = usu_id_usuario;
-        this.idProducto = idProducto;
+
+    public personabean(int id, String usu_nombre_usuario, String usu_apellido_usuario, String usu_correo_vendedor, String usu_dir, String num_cel) {
+        this.usu_id_usuario = id;
         this.usu_nombre_usuario = usu_nombre_usuario;
         this.usu_apellido_usuario = usu_apellido_usuario;
+        this.usu_correo_vendedor = usu_correo_vendedor;
         this.num_cel = num_cel;
-        this.usu_dir = usu_dir;
     }
+
+    
+
+    
 
     
     

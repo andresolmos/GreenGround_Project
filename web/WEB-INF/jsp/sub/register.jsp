@@ -34,11 +34,11 @@
                     <%--<form:errors path="*" element="div" cssClass="alert alert-danger"/>--%>
                     <div class="login-form"><br><br>
                         <div class="group">
-                            <form:label  path="usu_nombre_usuario" class="label">Nombres Usuario</form:label>
+                            <form:label  path="usu_nombre_usuario" class="label">Nombres Completos</form:label>
                             <form:input class="input" required="true" path="usu_nombre_usuario"></form:input>
                         </div>
                         <div class="group">
-                            <form:label  path="usu_apellido_usuario" class="label">Apellidos Usuario</form:label>
+                            <form:label  path="usu_apellido_usuario" class="label">Apellidos</form:label>
                             <form:input class="input" required="true" path="usu_apellido_usuario"></form:input>
                         </div>
                         <div class="group">
@@ -59,7 +59,7 @@
                         </div>
                         <div class="group">
                             <form:button type="submit"  name="enviar"  class="button1" style="float: left;">Registrarme</form:button>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <form:button type="reset" class="button1" style="float: center;">Borrar</form:button>
+                            <button type="reset" class="button1" style="float: center;">Borrar</button>
                             <form:button type="submit" class="button1" style="float: right;"><a class="regre" href="../index.htm">Regresar</a></form:button>
                         </div>
                     </div>

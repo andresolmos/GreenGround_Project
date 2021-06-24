@@ -25,8 +25,7 @@
     </head>
     <header>
         <div class="topnav" id="myTopnav">
-            <a class="active" href="seller.html" target="central"><i class="fas fa-store"></i> Mi Perfil <i class="fas fa-user"></i></a>
-            <a href="listproduct.html" target="central2">Mis Productos <i class="fas fa-clipboard-list"></i></a>
+            <a href="segcar.htm?idusu=${id}&rol=Vendedor" >Regresar <i class="fas fa-arrow-circle-left"></i></a>
             <a class="activeOff" target="central" style="float:right" onclick="myFunction()">Cerrar Sesion  <i class="fas fa-power-off"></i></a>
             <a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a>
         </div>
@@ -38,38 +37,37 @@
 
         <form:form commandName="product" method="post">
             <table class="tb1">
-            <form:errors path="*" element="div" cssClass="alert alert-danger"/>
-            <tr>
-                <td><form:label  path="Nombre" >Nombre producto </form:label></td>
-                <td><form:input cssClass="form-control" path="Nombre"></form:input></td>
-                    </tr>
+                <form:errors path="*" element="div" cssClass="alert alert-danger"/>
                 <tr>
-               <td> <form:label  path="Descripcion">descripcion producto </form:label></td>
-                <td><form:input cssClass="form-control" path="Descripcion"></form:input></td>
-                    </tr>
-                <tr>
-                <td><form:label  path="Stock">Stock producto </form:label></td>
-                <td><form:input cssClass="form-control" path="Stock" value="${product.stock}"></form:input></td>
-                    </tr>
-                <tr>
-               <td> <form:label  path="Precio">Precio producto</form:label></td>
-                <td><form:input cssClass="form-control" path="Precio" value="${product.precio}"></form:input></td>
-                    </tr>
-                <tr>
-               <td> <form:label  path="pro_expiration_date">fecha de expiracion producto</form:label></td>
-               <td> <input id="pro_expiration_date" value="${product.pro_expiration_date}" name="pro_expiration_date" class="form-control" type="date"></td>
-                </tr>
-            <tr>
-                <td><form:label  path="pro_batch_date">fecha de lote producto</form:label></td>
-               <td> <input id="pro_batch_date" value="${product.pro_batch_date}" name="pro_batch_date" class="form-control" type="date"></td>
+                    <td><form:label  path="Nombre" >Nombre producto </form:label></td>
+                    <td><form:input style="width:350px" cssClass="form-control" path="Nombre"></form:input></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><form:hidden path="id_usu"></form:hidden>
-                <form:hidden path="IdProducto"></form:hidden>
-                <form:button  name="enviar">enviar</form:button></td>
+                    <td> <form:label  path="Descripcion">Descripcion producto </form:label></td>
+                    <td><form:input style="width:350px" cssClass="form-control" path="Descripcion"></form:input></td>
                 </tr>
-                </table>
-            </form:form>
+                <tr>
+                    <td><form:label  path="Stock">Stock producto </form:label></td>
+                    <td><form:input style="width:350px" cssClass="form-control" path="Stock" value="${product.stock}"></form:input></td>
+                </tr>
+                <tr>
+                    <td> <form:label  path="Precio">Precio producto</form:label></td>
+                    <td><form:input style="width:350px" cssClass="form-control" path="Precio" value="${product.precio}"></form:input></td>
+                </tr>
+                <tr>
+                   <td> <form:label  path="pro_expiration_date">Fecha de expiracion producto</form:label></td>
+                   <td> <input style="width:350px" id="pro_expiration_date" value="${product.pro_expiration_date}" name="pro_expiration_date" class="form-control" type="date"></td>
+                </tr>
+                <tr>
+                    <td><form:label  path="pro_batch_date">Fecha de lote producto</form:label></td>
+                    <td> <input style="width:350px" id="pro_batch_date" value="${product.pro_batch_date}" name="pro_batch_date" class="form-control" type="date"></td>
+                </tr>
+                        <form:hidden path="id_usu"></form:hidden>
+                        <form:hidden path="IdProducto"></form:hidden>
+            </table><br>
+                <center><form:button  name="enviar" class="botonA" style="margin:0px auto; ">Actualizar</form:button></center>
+
+        </form:form>
         </div>
     </body>
 </html>

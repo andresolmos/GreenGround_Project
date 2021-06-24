@@ -34,9 +34,9 @@ public class clidao {
      * @author Andres Olmos
      */
     
-    public void modicliente(String nonbre, String apellido, String celular, String direccion ,int id) {
+    public void modicliente(String nonbre, String apellido,String correo, String celular, String direccion ,int id) {
         this.jdbctemplate = new JdbcTemplate(con.conectar());
-        String sql = "UPDATE tbusuario SET usu_nombre = '"+nonbre+"', usu_apellido = '"+apellido+"' ,num_cel = '"+celular+"',usu_dir = '"+direccion+"' WHERE usu_id_usuario= "+id+"";
+        String sql = "UPDATE tbusuario SET usu_nombre = '"+nonbre+"', usu_apellido = '"+apellido+"' ,num_cel = '"+celular+"',usu_dir = '"+direccion+"',usu_correo = '"+correo+"' WHERE usu_id_usuario= "+id+"";
         this.jdbctemplate.update(sql);
     }
     
@@ -110,6 +110,31 @@ public class clidao {
         List personabean = new ArrayList();
         this.jdbctemplate = new JdbcTemplate(con.conectar());
         String sql = "select * from tbusuario where usu_correo = '" + id + "'";
+        personabean = this.jdbctemplate.queryForList(sql);
+        return personabean;
+    }
+    public List statscompras(String columna , String condicional) {
+        List personabean = new ArrayList();
+        this.jdbctemplate = new JdbcTemplate(con.conectar());
+        String sql = "select "+columna+" from tbcompras inner  join tbusuario on tbcompras.idVendedor = tbusuario.usu_id_usuario "+condicional+""
+                + " limit 1";
+        personabean = this.jdbctemplate.queryForList(sql);
+        return personabean;
+    }
+    public List mostseller() {
+        List personabean = new ArrayList();
+        this.jdbctemplate = new JdbcTemplate(con.conectar());
+        String sql = "select tbproducto.Pro_Nombre,tbproducto.Pro_Precio,tbproducto.Pro_Stock ,SUM(tbcompras.shop_cantidad) AS cantidad from"
+                + " tbcompras inner join tbproducto on tbcompras.IdProducto = tbproducto.IdProducto GROUP BY tbcompras.IdProducto LIMIT 1";
+        personabean = this.jdbctemplate.queryForList(sql);
+        return personabean;
+    }
+   
+    
+    public List users() {
+        List personabean = new ArrayList();
+        this.jdbctemplate = new JdbcTemplate(con.conectar());
+        String sql = "select * from tbusuario";
         personabean = this.jdbctemplate.queryForList(sql);
         return personabean;
     }

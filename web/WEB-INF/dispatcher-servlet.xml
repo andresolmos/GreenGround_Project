@@ -19,15 +19,16 @@
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
+                <prop key="index.htm">indexController</prop>
+                <prop key="sub/stats.htm">homecontroller</prop>
                 <prop key="sub/register.htm">homecontroller</prop>
                 <prop key="sub/login.htm">homecontroller</prop>
-                <prop key="index.htm">indexController</prop>
                 <prop key="sub/seller.htm">homecontroller</prop>
                 <prop key="sub/buyer.htm">homecontroller</prop>
                 <prop key="sub/remenber.htm">homecontroller</prop>
                 <prop key="sub/updatepass.htm">homecontroller</prop>
                 <prop key="sub/uppass.htm">homecontroller</prop>
-                <prop key="sub/modinfo.htm">homecontroller</prop>
+                <prop key="sub/config.htm">homecontroller</prop>
                 <prop key="sub/buyer.htm">carcontroller</prop>
                 <prop key="sub/car.htm">carcontroller</prop>
                 <prop key="sub/shopcar.htm">carcontroller</prop>
@@ -35,9 +36,7 @@
                 <prop key="sub/decar.htm">carcontroller</prop>
                 <prop key="sub/elicar.htm">carcontroller</prop>
                 <prop key="sub/segcar.htm">carcontroller</prop>
-                <prop key="sub/genbuy.htm">carcontroller</prop>
                 <prop key="sub/showbuy.htm">carcontroller</prop>
-                
                 <prop key="sub/addprod.htm">ControllerProduct</prop>
                 <prop key="sub/modprod.htm">ControllerProduct</prop>
                 <prop key="sub/delprod.htm">ControllerProduct</prop>
@@ -57,8 +56,8 @@
     <bean name="ControllerProduct" class="controller.ControllerProduct"/>
     <bean name="carcontroller" class="controller.carcontroller"/>
     <bean name="homecontroller" class="controller.homecontroller"/>
-     <bean name="indexController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController"
-          p:viewName="index" />
+    <bean name="indexController"
+           class="org.springframework.web.servlet.mvc.ParameterizableViewController"
+           p:viewName="index" />
 
 </beans>

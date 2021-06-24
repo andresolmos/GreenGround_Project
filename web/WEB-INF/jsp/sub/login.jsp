@@ -16,24 +16,26 @@
     <body>
         <header>
             <div class="topnav" id="myTopnav">
-                <a class="active" href="../index.htm" target="central"><i class="fas fa-store"></i> GreenGround <i class="fas fa-apple-alt"></i></a>
-                <a href="stats.htm" target="central">Estadisticas <i class="fas fa-signal"></i></a>
+                <a class="active" href="../index.htm" ><i class="fas fa-store"></i> GreenGround <i class="fas fa-apple-alt"></i></a>
+                <a href="stats.htm">Estadisticas <i class="fas fa-signal"></i></a>
                 <a class="active1" href="register.htm"  style="float:right">Registrarme <i class="fas fa-user-plus"></i></a>
                 <a class="active1" href="login.htm"  style="float:right">Inicio de Sesion <i class="fas fa-user-tie"></i></a>
                 <a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a>
             </div>
         </header>
         <br><br><br><br>
-        <div class="alert" >
-            <h1><c:out value="${as}"></c:out></h1>
-        </div>
+
         <form:form commandName="personabean">
             <div class="login-wrap">
                 <div class="login-html">
+                    
                     <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Iniciar Sesion</label>
                     <input id="tab-2" type="hidden" name="tab" class="sign-up"><label for="tab-2" class="tab"></label>
                     <%--<form:errors path="*" element="div" cssClass="alert alert-danger"/>--%>
-                    <div class="login-form">
+                    <div class="login-form"><br>
+                        <div class="alert" >
+                            <center><h4><c:out value="${as}"></c:out></h4></center>
+                        </div>
                         <div class="sign-in-htm"><br><br><br>
                             <div class="group">
                                 <form:label  path="usu_correo_vendedor" class="label">Correo Electronico</form:label><br>

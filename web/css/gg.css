@@ -21,8 +21,8 @@ a
 {
     font-family: 'Chela One', cursive;
     font-size: 25px;
-    color:rgb(0, 0, 0);
-    -webkit-text-stroke: 0.2px rgb(253, 253, 253);
+    color: white;
+    -webkit-text-stroke: 0.5px black;
 }
 
 .login
@@ -53,15 +53,15 @@ a
     padding: 0px;
     color: #fdfdfd;
     background: url(../img/fondo.jpg);
-	background-position: center;
-	background-attachment: contain;
-	background-size: cover;
-	background-repeat: no-repeat;
-	height: 800px;
-	width: 100%;
-	font-size: 60px;
-	transition: 3s;
-    text-shadow: -4px 4px 4px #0e0e0e
+    background-position: center;
+    background-attachment: contain;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 800px;
+    width: 100%;
+    font-size: 60px;
+    transition: 3s;
+    text-shadow: -6px 6px 6px #0e0e0e
 }
 
 .presentacion{
@@ -82,6 +82,37 @@ h1
     text-shadow: -10px 20px 10px #0e0e0e
 }
 
+.h1h
+{
+    font-family: 'Changa', sans-serif;
+    font-size: 70px;
+    color: rgb(255, 255, 255);
+    text-shadow: -10px 20px 10px #0e0e0e
+}
+
+.h2h
+{
+    font-family: 'Changa', sans-serif;
+    font-size: 45px;
+    color: rgb(255, 255, 255);
+    text-shadow: -10px 20px 10px #0e0e0e
+}
+
+.h3h
+{
+    font-family: 'Changa', sans-serif;
+    font-size: 40px;
+    color: rgb(255, 255, 255);
+    text-shadow: -10px 20px 10px #0e0e0e
+}
+
+.ahome
+{
+    font-family: 'Open Sans',sans-serif;
+    color:inherit;
+    text-decoration:none
+}
+
 p
 {
     text-align: justify;
@@ -99,9 +130,9 @@ p
 }
 
 .productos{
-	padding: 5px 5px;
-	height: 50px;
-	background: rgb(153, 153, 153);
+    padding: 5px 5px;
+    height: 50px;
+    background: rgb(153, 153, 153);
     color: black;
     font-size: 20px;
     
@@ -116,6 +147,20 @@ p
 .columnas:hover{
 	background: #3d882e;
 	transition: 0.8s;
+}
+
+.footf {
+    background-color: black;
+    color: cornsilk;
+    padding: 10px;
+    font-size: 30px;
+    font-family: 'Changa', sans-serif;
+    -webkit-text-stroke: 1px goldenrod;
+    position: relative;
+    bottom: 0;
+    width: 98.8%;
+    height: 50px;
+
 }
 
 footer
@@ -158,6 +203,25 @@ button.boton2 /*boton2*/
 button.boton2:hover     /*boton2*/
 {
     background-color: rgb(27, 230, 78);
+    transition-duration: 0.5s;
+}
+
+button.boton3 /*boton2*/
+{
+    background-color: rgb(83, 148, 108);
+    border: none;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 30px;
+    border-radius: 30px;
+
+}
+
+button.boton3:hover     /*boton2*/
+{
+    background-color: rgb(9, 90, 29);
     transition-duration: 0.5s;
 }
 

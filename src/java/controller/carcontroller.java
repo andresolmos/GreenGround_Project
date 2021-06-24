@@ -171,14 +171,24 @@ public class carcontroller {
         ModelAndView mav = new ModelAndView();
         cardao carda = new cardao();
         int idusu = Integer.parseInt(request.getParameter("idusu"));
+        String rol = request.getParameter("rol");
         String table = "tbusuario";
         String type = "usu_id_usuario";
         List astra = carda.searchid(idusu, table, type);
-        mav.addObject("Product", new Product());
-        mav.addObject("person", astra);
-        mav.addObject("product", carda.testprod());
-        mav.setViewName("sub/buyer");
-        return mav;
+        if("Vendedor".equals(rol)) {
+                    DaoProduct DaoProduct = new DaoProduct();
+                    mav.addObject("Product", new Product());
+                    mav.addObject("person", astra);
+                    mav.addObject("product", DaoProduct.viewAllProductsid(idusu));
+                    mav.setViewName("sub/seller");
+                    return mav;
+                }else{
+                    mav.addObject("Product", new Product());
+                    mav.addObject("person", astra);
+                    mav.addObject("product", carda.testprod());
+                    mav.setViewName("sub/buyer");
+                    return mav;
+                }
     }
 
     @RequestMapping(value = "sub/upcar.htm", method = RequestMethod.GET)
@@ -237,7 +247,7 @@ public class carcontroller {
             clida.enviarConGMail(Product.getUsu_correo_vendedor(), asunto, cuerpo);
              o = o +1;
         } while (o == astra.size());
-        
+        mav.addObject("id",id);
         mav.addObject("product", new Product());
         mav.setViewName("sub/showbuy");
         return mav;

@@ -9,6 +9,7 @@
 	justify-content: center;
 	width: 100%;
 	margin: 0 auto 3em;
+        
 }
 
 .pricing__item {
@@ -23,6 +24,7 @@
 	-webkit-flex: 0 1 330px;
 	flex: 0 1 330px;
     border-radius: 20px;
+        box-shadow:0 12px 15px 0 rgb(0, 0, 0);
 }
 
 .pricing__feature-list {
@@ -76,14 +78,15 @@
 .pricing--jinpa .pricing__price {
 	font-size: 1.45em;
 	font-weight: bold;
-	line-height: 95px;
-	width: 100px;
-	height: 100px;
+	line-height: 130px;
+	width: 130px;
+	height: 130px;
 	margin: 1.15em auto 1em;
 	border-radius: 50%;
 	background: #eac36e;
 	-webkit-transition: color 0.3s, background 0.3s;
 	transition: color 0.3s, background 0.3s;
+        
 }
 
 
