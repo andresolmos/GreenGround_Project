@@ -37,6 +37,7 @@
                 <prop key="sub/elicar.htm">carcontroller</prop>
                 <prop key="sub/segcar.htm">carcontroller</prop>
                 <prop key="sub/showbuy.htm">carcontroller</prop>
+                <prop key="sub/pdfdown.htm">carcontroller</prop>
                 <prop key="sub/addprod.htm">ControllerProduct</prop>
                 <prop key="sub/modprod.htm">ControllerProduct</prop>
                 <prop key="sub/delprod.htm">ControllerProduct</prop>

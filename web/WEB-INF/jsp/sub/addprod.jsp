@@ -63,6 +63,7 @@
                     <td><form:label  path="pro_batch_date">Fecha lote producto</form:label></td>
                     <td><input id="pro_batch_date" class="input" name="pro_batch_date" class="form-control" type="date" required="true" style="width:350px"></td>
                 </tr>
+
                 <form:hidden path="id_usu" value="${id}"></form:hidden>
             </table><br>
             <center>

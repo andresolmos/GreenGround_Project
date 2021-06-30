@@ -5,16 +5,23 @@
  */
 package controller;
 
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
 import dao.DaoProduct;
 import dao.cardao;
 import dao.clidao;
 import dbconect.dbconect;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.ListIterator;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import model.Product;
 import model.personabean;
 import org.springframework.dao.DataAccessException;
@@ -74,9 +81,9 @@ public class carcontroller {
         } else {
             if (astro == null || astro.isEmpty()) {
                 Product Product = this.cargarclientebyid(idproduct);
-                carda.addcar(iduser, idproduct, Product.getNombre(), Product.getStock(), Product.getDescripcion(), Product.getPrecio());
+                carda.addcar(iduser, idproduct, Product.getPrecio());
                 if (astre == null || astre.isEmpty()) {
-                carda.evvent(iduser);
+                    carda.evvent(iduser);
                 }
                 mav.addObject("Product", new Product());
                 mav.addObject("person", astra);
@@ -84,7 +91,7 @@ public class carcontroller {
                 mav.setViewName("sub/buyer");
                 return mav;
             } else {
-                String tableid = "IdProducto";
+                String tableid = "tbproducto.IdProducto";
                 Product Product = this.cargarclientebyidcar(idproduct, tableid, iduser);
                 if (Product.getCantidad() > 1) {
                     int Cantidad = Product.getCantidad() + 1;
@@ -114,34 +121,34 @@ public class carcontroller {
         ModelAndView mav = new ModelAndView();
         cardao carda = new cardao();
         int iduser = Integer.parseInt(request.getParameter("id_usu"));
-        String tableud = "tbcarrito";
+        String tableud = "tbcarrito inner join tbproducto on tbproducto.IdProducto = tbcarrito.IdProducto";
         String typeud = "usu_id_usuario";
         List astro = carda.show(iduser);
         List astra = carda.searchid(iduser, tableud, typeud);
         if (astra == null || astra.isEmpty()) {
             String table = "tbusuario";
-        String type = "usu_id_usuario";
-        List astre = carda.searchid(iduser, table, type);
-        mav.addObject("Product", new Product());
-        mav.addObject("person", astre);
-        mav.addObject("product", carda.testprod());
-        mav.setViewName("sub/buyer");
-        return mav;
-        }else{
-        if (astro == null || astro.isEmpty()) {
-            mav.addObject("sum", carda.sum(iduser));
+            String type = "usu_id_usuario";
+            List astre = carda.searchid(iduser, table, type);
             mav.addObject("Product", new Product());
-            mav.addObject("product", astra);
-            mav.setViewName("sub/shopcar");
+            mav.addObject("person", astre);
+            mav.addObject("product", carda.testprod());
+            mav.setViewName("sub/buyer");
             return mav;
         } else {
-            carda.drop(iduser);
-            mav.addObject("sum", carda.sum(iduser));
-            mav.addObject("Product", new Product());
-            mav.addObject("product", astra);
-            mav.setViewName("sub/shopcar");
-            return mav;
-        }
+            if (astro == null || astro.isEmpty()) {
+                mav.addObject("sum", carda.sum(iduser));
+                mav.addObject("Product", new Product());
+                mav.addObject("product", astra);
+                mav.setViewName("sub/shopcar");
+                return mav;
+            } else {
+                carda.drop(iduser);
+                mav.addObject("sum", carda.sum(iduser));
+                mav.addObject("Product", new Product());
+                mav.addObject("product", astra);
+                mav.setViewName("sub/shopcar");
+                return mav;
+            }
         }
     }
 
@@ -175,20 +182,20 @@ public class carcontroller {
         String table = "tbusuario";
         String type = "usu_id_usuario";
         List astra = carda.searchid(idusu, table, type);
-        if("Vendedor".equals(rol)) {
-                    DaoProduct DaoProduct = new DaoProduct();
-                    mav.addObject("Product", new Product());
-                    mav.addObject("person", astra);
-                    mav.addObject("product", DaoProduct.viewAllProductsid(idusu));
-                    mav.setViewName("sub/seller");
-                    return mav;
-                }else{
-                    mav.addObject("Product", new Product());
-                    mav.addObject("person", astra);
-                    mav.addObject("product", carda.testprod());
-                    mav.setViewName("sub/buyer");
-                    return mav;
-                }
+        if ("Vendedor".equals(rol)) {
+            DaoProduct DaoProduct = new DaoProduct();
+            mav.addObject("Product", new Product());
+            mav.addObject("person", astra);
+            mav.addObject("product", DaoProduct.viewAllProductsid(idusu));
+            mav.setViewName("sub/seller");
+            return mav;
+        } else {
+            mav.addObject("Product", new Product());
+            mav.addObject("person", astra);
+            mav.addObject("product", carda.testprod());
+            mav.setViewName("sub/buyer");
+            return mav;
+        }
     }
 
     @RequestMapping(value = "sub/upcar.htm", method = RequestMethod.GET)
@@ -198,7 +205,7 @@ public class carcontroller {
         int idusu = Integer.parseInt(request.getParameter("idusu"));
         int cantidad = Integer.parseInt(request.getParameter("cantidad"));
         int idproduct = Integer.parseInt(request.getParameter("IdProducto"));
-        String tableid = "IdProducto";
+        String tableid = "tbproducto.IdProducto";
         Product Product = this.cargarclientebyidcar(idproduct, tableid, idusu);
         if (Product.getCantidad() > cantidad) {
             double Precioresta = Product.getPrecio() / Product.getCantidad();
@@ -223,7 +230,7 @@ public class carcontroller {
         }
 
     }
-    
+
     @RequestMapping(value = "sub/showbuy.htm", method = RequestMethod.GET)
     public ModelAndView showbuy(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView();
@@ -234,27 +241,46 @@ public class carcontroller {
         List astra = carda.searchitem(id);
         int o = 1;
         do {
-            int idpro = Integer.parseInt(request.getParameter("idpro_"+o));
+            int idpro = Integer.parseInt(request.getParameter("idpro_" + o));
             Product Product = this.cargarusuariobyid(idpro);
             Product carrito = this.cargarclientebyidcar(id);
-            int stock =Product.getStock() - carrito.getCantidad();
-            carda.upshop(carrito.getCantidad(), carrito.getPrecio(), Product.getId_usu(), idpro, id);
+            int stock = Product.getStock() - carrito.getCantidad();
+            carda.addshops(carrito.getCantidad(), carrito.getPrecio(), Product.getId_usu(), idpro, id);
+            carda.addpay( carrito.getPrecio(), idpro, id);
+            carda.addsends(idpro,Product.getId_usu(), id );
             prod.updatestock(idpro, Product.getId_usu(), stock);
-            carda.deleitemcar(id, idpro);
+            //carda.deleitemcar(id, idpro);
             String asunto = "AVISO DE COMPRA || GreenGround";
-            String cuerpo = "Se ha realizado la compra a uno de los productos que publico, el cual es "+Product.getNombre()+""
-                    + ", se le compro una cantidad de "+carrito.getCantidad()+" y el total que le deben cancelar es: $"+carrito.getPrecio() ;
+            String cuerpo = "Se ha realizado la compra a uno de los productos que publico, el cual es " + Product.getNombre() + ""
+                    + ", se le compro una cantidad de " + carrito.getCantidad() + " y el total que le deben cancelar es: $" + carrito.getPrecio();
             clida.enviarConGMail(Product.getUsu_correo_vendedor(), asunto, cuerpo);
-             o = o +1;
+            o = o + 1;
         } while (o == astra.size());
-        mav.addObject("id",id);
+        mav.addObject("id", id);
         mav.addObject("product", new Product());
         mav.setViewName("sub/showbuy");
         return mav;
     }
-    
-    
-     public Product cargarusuariobyid(int id) {
+
+   @RequestMapping(value = "sub/pdfdown.htm")
+    public ModelAndView cretePdf(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+        res.setContentType("application/pdf");
+        ModelAndView mav = new ModelAndView();
+        int idUsuario = Integer.parseInt(req.getParameter("idusu"));
+        String contenido = "Hola Mundo!!/n Estamos en PDF";
+        cardao carDao = new cardao();
+        List productos = carDao.searchitem(idUsuario);
+        PdfWriter writer = new PdfWriter(res.getOutputStream());
+        PdfDocument pdf = new PdfDocument(writer);
+        Document document = new Document(pdf);
+        document.add(new Paragraph(contenido));
+        mav.addObject("id", idUsuario);
+        mav.addObject("product", new Product());
+        mav.setViewName("sub/showbuy");
+        return mav;
+    }
+
+    public Product cargarusuariobyid(int id) {
         final Product Product = new Product();
         String sql = "SELECT * FROM tbproducto INNER JOIN tbusuario ON tbproducto.usu_id = tbusuario.usu_id_usuario WHERE IdProducto =" + id;
         return (Product) jdbcTemplate.query(sql, new ResultSetExtractor<Product>() {
@@ -274,7 +300,6 @@ public class carcontroller {
         }
         );
     }
-    
 
     public Product cargarclientebyid(int id) {
         final Product Product = new Product();
@@ -294,21 +319,18 @@ public class carcontroller {
         }
         );
     }
-    
-    
-    
 
     public Product cargarclientebyidcar(int id, String tableid, int idusu) {
         final Product Product = new Product();
-        String sql = "select * from tbcarrito where " + tableid + " =" + id + " and usu_id_usuario =" + idusu;
+        String sql = "select * from tbcarrito inner join tbproducto on tbproducto.IdProducto = tbcarrito.IdProducto where " + tableid + " =" + id + " and usu_id_usuario =" + idusu;
         return (Product) jdbcTemplate.query(sql, new ResultSetExtractor<Product>() {
             public Product extractData(ResultSet rs) throws SQLException, DataAccessException {
                 if (rs.next()) {
                     Product.setIdProducto(rs.getInt("IdProducto"));
-                    Product.setNombre(rs.getString("Car_Nombre"));
-                    Product.setDescripcion(rs.getString("Car_Descripcion"));
+                    Product.setNombre(rs.getString("Pro_Nombre"));
+                    Product.setDescripcion(rs.getString("Pro_Descripcion"));
                     Product.setPrecio(rs.getDouble("Car_Precio"));
-                    Product.setStock(rs.getInt("Car_stock"));
+                    Product.setStock(rs.getInt("Pro_Stock"));
                     Product.setItem(rs.getInt("Car_Item"));
                     Product.setCantidad(rs.getInt("Car_cantidad"));
                 }
@@ -318,17 +340,18 @@ public class carcontroller {
         }
         );
     }
-    public Product cargarclientebyidcar( int idusu) {
+
+    public Product cargarclientebyidcar(int idusu) {
         final Product Product = new Product();
-        String sql = "select * from tbcarrito where usu_id_usuario =" + idusu;
+        String sql = "select * from tbcarrito inner join tbproducto on tbproducto.IdProducto = tbcarrito.IdProducto where usu_id_usuario =" + idusu;
         return (Product) jdbcTemplate.query(sql, new ResultSetExtractor<Product>() {
             public Product extractData(ResultSet rs) throws SQLException, DataAccessException {
                 if (rs.next()) {
                     Product.setIdProducto(rs.getInt("IdProducto"));
-                    Product.setNombre(rs.getString("Car_Nombre"));
-                    Product.setDescripcion(rs.getString("Car_Descripcion"));
+                    Product.setNombre(rs.getString("Pro_Nombre"));
+                    Product.setDescripcion(rs.getString("Pro_Descripcion"));
                     Product.setPrecio(rs.getDouble("Car_Precio"));
-                    Product.setStock(rs.getInt("Car_stock"));
+                    Product.setStock(rs.getInt("Pro_Stock"));
                     Product.setItem(rs.getInt("Car_Item"));
                     Product.setCantidad(rs.getInt("Car_cantidad"));
                 }
@@ -339,5 +362,3 @@ public class carcontroller {
         );
     }
 }
-
-
