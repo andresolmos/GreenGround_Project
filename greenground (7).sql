@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-06-2021 a las 04:38:09
+-- Tiempo de generación: 30-06-2021 a las 01:57:26
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.3.26
 
@@ -29,33 +29,19 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `tbcarrito` (
   `IdProducto` int(11) NOT NULL,
-  `Car_Nombre` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
-  `Car_Foto` blob NOT NULL,
-  `Car_Descripcion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `Car_Precio` double NOT NULL,
   `Car_Item` int(11) NOT NULL,
-  `Car_stock` int(11) NOT NULL,
   `usu_id_usuario` int(11) NOT NULL,
   `Car_cantidad` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
--- --------------------------------------------------------
-
 --
--- Estructura de tabla para la tabla `tbcliente`
+-- Volcado de datos para la tabla `tbcarrito`
 --
 
-CREATE TABLE `tbcliente` (
-  `IdCliente` int(11) NOT NULL,
-  `Identificacion` varchar(10) NOT NULL,
-  `Nombres` varchar(255) NOT NULL,
-  `apellidos` varchar(20) NOT NULL,
-  `Direccion` varchar(255) NOT NULL,
-  `Email` varchar(255) NOT NULL,
-  `Password` varchar(20) NOT NULL,
-  `fecha_nacimiento` date NOT NULL,
-  `img_usuario` blob NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `tbcarrito` (`IdProducto`, `Car_Precio`, `Car_Item`, `usu_id_usuario`, `Car_cantidad`) VALUES
+(19, 100000, 149, 5, 1),
+(16, 100000, 150, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -89,21 +75,49 @@ INSERT INTO `tbcompras` (`IdCompras`, `IdCliente`, `Shop_fecha`, `Shop_monto`, `
 (10, 5, '2021-06-16', 100000, 'cancelado en envio', 12, 16, 1),
 (12, 5, '2021-06-20', 50000, 'cancelado en envio', 5, 17, 1),
 (13, 5, '2021-06-20', 200000, 'cancelado en envio', 5, 2, 4),
-(14, 5, '2021-06-21', 100000, 'cancelado en envio', 5, 19, 1);
+(14, 5, '2021-06-21', 100000, 'cancelado en envio', 5, 19, 1),
+(15, 5, '2021-06-24', 100000, 'cancelado en envio', 5, 19, 1),
+(16, 5, '2021-06-29', 100000, 'cancelado en envio', 12, 16, 1),
+(17, 5, '2021-06-29', 0, 'cancelado en envio', 12, 16, 0),
+(18, 5, '2021-06-29', 100000, 'cancelado en envio', 12, 16, 1),
+(19, 5, '2021-06-29', 200000, 'cancelado en envio', 12, 16, 2),
+(20, 5, '2021-06-29', 200000, 'cancelado en envio', 12, 16, 2),
+(21, 5, '2021-06-29', 200000, 'cancelado en envio', 12, 16, 2),
+(22, 5, '2021-06-29', 200000, 'cancelado en envio', 12, 16, 2),
+(23, 5, '2021-06-29', 100000, 'cancelado en envio', 12, 16, 1),
+(24, 5, '2021-06-29', 100000, 'cancelado en envio', 5, 19, 1),
+(25, 5, '2021-06-29', 100000, 'cancelado en envio', 12, 16, 1),
+(26, 5, '2021-06-29', 100000, 'cancelado en envio', 12, 16, 1),
+(27, 5, '2021-06-29', 100000, 'cancelado en envio', 12, 16, 1),
+(28, 5, '2021-06-29', 100000, 'cancelado en envio', 12, 16, 1),
+(29, 5, '2021-06-29', 100000, 'cancelado en envio', 12, 16, 1),
+(30, 5, '2021-06-29', 100000, 'cancelado en envio', 12, 16, 1),
+(31, 5, '2021-06-29', 100000, 'cancelado en envio', 12, 16, 1),
+(32, 5, '2021-06-29', 100000, 'cancelado en envio', 12, 16, 1),
+(33, 5, '2021-06-29', 100000, 'cancelado en envio', 12, 16, 1),
+(34, 5, '2021-06-29', 100000, 'cancelado en envio', 5, 19, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tbdetalle_compras`
+-- Estructura de tabla para la tabla `tbenvios`
 --
 
-CREATE TABLE `tbdetalle_compras` (
-  `IdDetalle` int(11) NOT NULL,
-  `Idproducto` int(11) NOT NULL,
-  `IdCompras` int(11) NOT NULL,
-  `Cantidad` int(11) NOT NULL,
-  `PrecioCompra` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `tbenvios` (
+  `Id_Envios` int(11) NOT NULL,
+  `IdProducto` int(11) NOT NULL,
+  `Id_Ven` int(11) NOT NULL,
+  `send_state` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
+  `IdCliente` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tbenvios`
+--
+
+INSERT INTO `tbenvios` (`Id_Envios`, `IdProducto`, `Id_Ven`, `send_state`, `IdCliente`) VALUES
+(6, 16, 12, 'cancelado en envio', 5),
+(7, 19, 5, 'cancelado en envio', 5);
 
 -- --------------------------------------------------------
 
@@ -113,8 +127,25 @@ CREATE TABLE `tbdetalle_compras` (
 
 CREATE TABLE `tbpago` (
   `IdPago` int(11) NOT NULL,
-  `Monto` double NOT NULL
+  `Pay_Monto` double NOT NULL,
+  `Pay_State` varchar(20) NOT NULL,
+  `IdProducto` int(11) NOT NULL,
+  `idVendedor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `tbpago`
+--
+
+INSERT INTO `tbpago` (`IdPago`, `Pay_Monto`, `Pay_State`, `IdProducto`, `idVendedor`) VALUES
+(3, 100000, 'sin pagar', 16, 5),
+(4, 100000, 'sin pagar', 16, 5),
+(5, 100000, 'sin pagar', 16, 5),
+(6, 100000, 'sin pagar', 16, 5),
+(7, 100000, 'sin pagar', 16, 5),
+(8, 100000, 'sin pagar', 16, 5),
+(9, 100000, 'sin pagar', 16, 5),
+(10, 100000, 'sin pagar', 19, 5);
 
 -- --------------------------------------------------------
 
@@ -139,8 +170,8 @@ CREATE TABLE `tbproducto` (
 --
 
 INSERT INTO `tbproducto` (`IdProducto`, `Pro_Nombre`, `Pro_Foto`, `Pro_Descripcion`, `Pro_Precio`, `Pro_Stock`, `pro_fecha_lote`, `pro_fecha_vencimiento`, `usu_id`) VALUES
-(16, 'perros', 0x30, 'gatos', 100000, 49, '2021-06-27', '2021-06-17', 12),
-(19, 'curcuma', 0x30, 'sadsd', 100000, 49, '2021-07-01', '2021-06-05', 5);
+(16, 'perros', 0x30, 'gatos', 100000, 37, '2021-06-27', '2021-06-17', 12),
+(19, 'curcuma', 0x30, 'sadsd', 100000, 46, '2021-07-01', '2021-06-05', 5);
 
 -- --------------------------------------------------------
 
@@ -181,12 +212,6 @@ ALTER TABLE `tbcarrito`
   ADD KEY `usu_id_usuario` (`usu_id_usuario`);
 
 --
--- Indices de la tabla `tbcliente`
---
-ALTER TABLE `tbcliente`
-  ADD PRIMARY KEY (`IdCliente`);
-
---
 -- Indices de la tabla `tbcompras`
 --
 ALTER TABLE `tbcompras`
@@ -196,18 +221,21 @@ ALTER TABLE `tbcompras`
   ADD KEY `IdProducto` (`IdProducto`);
 
 --
--- Indices de la tabla `tbdetalle_compras`
+-- Indices de la tabla `tbenvios`
 --
-ALTER TABLE `tbdetalle_compras`
-  ADD PRIMARY KEY (`IdDetalle`),
-  ADD KEY `Idproducto` (`Idproducto`),
-  ADD KEY `IdCompras` (`IdCompras`);
+ALTER TABLE `tbenvios`
+  ADD PRIMARY KEY (`Id_Envios`),
+  ADD KEY `Id_Ven` (`Id_Ven`),
+  ADD KEY `IdProducto` (`IdProducto`),
+  ADD KEY `IdCliente` (`IdCliente`);
 
 --
 -- Indices de la tabla `tbpago`
 --
 ALTER TABLE `tbpago`
-  ADD PRIMARY KEY (`IdPago`);
+  ADD PRIMARY KEY (`IdPago`),
+  ADD KEY `IdProducto` (`IdProducto`),
+  ADD KEY `idVendedor` (`idVendedor`);
 
 --
 -- Indices de la tabla `tbproducto`
@@ -230,13 +258,25 @@ ALTER TABLE `tbusuario`
 -- AUTO_INCREMENT de la tabla `tbcarrito`
 --
 ALTER TABLE `tbcarrito`
-  MODIFY `Car_Item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
+  MODIFY `Car_Item` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT de la tabla `tbcompras`
 --
 ALTER TABLE `tbcompras`
-  MODIFY `IdCompras` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `IdCompras` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT de la tabla `tbenvios`
+--
+ALTER TABLE `tbenvios`
+  MODIFY `Id_Envios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `tbpago`
+--
+ALTER TABLE `tbpago`
+  MODIFY `IdPago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `tbproducto`
@@ -267,6 +307,21 @@ ALTER TABLE `tbcarrito`
 ALTER TABLE `tbcompras`
   ADD CONSTRAINT `tbcompras_ibfk_1` FOREIGN KEY (`IdCliente`) REFERENCES `tbusuario` (`usu_id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbcompras_ibfk_2` FOREIGN KEY (`idVendedor`) REFERENCES `tbusuario` (`usu_id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tbenvios`
+--
+ALTER TABLE `tbenvios`
+  ADD CONSTRAINT `tbenvios_ibfk_2` FOREIGN KEY (`Id_Ven`) REFERENCES `tbusuario` (`usu_id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbenvios_ibfk_3` FOREIGN KEY (`IdProducto`) REFERENCES `tbproducto` (`IdProducto`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbenvios_ibfk_4` FOREIGN KEY (`IdCliente`) REFERENCES `tbusuario` (`usu_id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `tbpago`
+--
+ALTER TABLE `tbpago`
+  ADD CONSTRAINT `tbpago_ibfk_1` FOREIGN KEY (`IdProducto`) REFERENCES `tbproducto` (`IdProducto`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tbpago_ibfk_2` FOREIGN KEY (`idVendedor`) REFERENCES `tbusuario` (`usu_id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `tbproducto`
