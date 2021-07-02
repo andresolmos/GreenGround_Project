@@ -70,6 +70,7 @@ public class cardao {
         List Product = new ArrayList();
         this.jdbctemplate = new JdbcTemplate(con.conectar());
         String sql = "select * from tbcarrito inner join tbproducto on tbproducto.IdProducto = tbcarrito.IdProducto  where usu_id_usuario = '" + id + "'";
+        Product = this.jdbctemplate.queryForList(sql);
         return Product;
         }
         

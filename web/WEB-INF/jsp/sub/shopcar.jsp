@@ -78,7 +78,7 @@
                                 <th>Articulo</th>
                                 <th>Descripcion</th>
                                 <th>Precio</th>
-                                <th>Cantidad</th>                       
+                                <th>Cantidad en Kg</th>                       
                                 <th>Total</th>                       
                                 <th>Acciones</th>                       
                             </tr>
@@ -89,21 +89,13 @@
                                     <td><c:out value="${dato.Car_Item }"></c:out></td>                                   
 
                                     <td><c:out value="${dato.Pro_Nombre}"></c:out>
-                                        <img src="<c:out value="${dato.Pro_Foto}"></c:out>" width="130" height="110">
                                         </td>
                                         <td><c:out value="${dato.Pro_Descripcion}"></c:out></td>
                                     <td><c:out value="$ ${dato.Pro_Precio}"></c:out></td>
-
-                                    <td><c:out value="${dato.Car_Nombre}"></c:out>
-                                        <img src="<c:out value="${dato.Car_Foto}"></c:out>" width="130" height="110">
-                                        </td>
-                                        <td><c:out value="${dato.Car_Descripcion}"></c:out></td>
-                                    <td><c:out value="$ ${dato.Car_Precio}"></c:out></td>
-
                                     <td>
                                         <form action="upcar.htm" method="GET">
                                             <input type="hidden" name="idusu" value="<c:out value="${dato.usu_id_usuario}"></c:out>">
-                                        <input type="hidden" name="IdProducto" value="<c:out value="${dato.IdProducto }"></c:out>">
+                                        <input type="hidden" name="IdProducto" value="<c:out value="${dato.IdProducto}"></c:out>"> 
                                         <input min="1" max="20" type="number" name="cantidad" value="<c:out value="${dato.Car_cantidad}"></c:out>">
                                             </td>   
                                             <td><c:out value="$ ${dato.Car_Precio}"> </c:out></td>                           

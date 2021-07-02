@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import javax.servlet.ServletException;
@@ -262,22 +263,57 @@ public class carcontroller {
         return mav;
     }
 
-   @RequestMapping(value = "sub/pdfdown.htm")
-    public ModelAndView cretePdf(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
+   @RequestMapping(value = "sub/pdfdown.htm", method = RequestMethod.GET)
+    public void cretePdf(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         res.setContentType("application/pdf");
-        ModelAndView mav = new ModelAndView();
+        cardao carda = new cardao();
         int idUsuario = Integer.parseInt(req.getParameter("idusu"));
-        String contenido = "Hola Mundo!!/n Estamos en PDF";
-        cardao carDao = new cardao();
-        List productos = carDao.searchitem(idUsuario);
+        HashMap productos = new HashMap();
+        productos = (HashMap) carda.searchitem(idUsuario);
+        /*
+        
+        {IdProducto=19, Car_Precio=100000.0, Car_Item=152, usu_id_usuario=12, 
+        Car_cantidad=1, Pro_Nombre=curcuma, Pro_Foto=[B@17b81d35, Pro_Descripcion=sadsd, 
+        Pro_Precio=100000.0, Pro_Stock=22, pro_fecha_lote=2021-07-01, pro_fecha_vencimiento=2021-06-05, 
+        usu_id=5}
+         */
+
+        //for productos.size() para coger todos los valores
+        /*Declaración del documento PDF*/
         PdfWriter writer = new PdfWriter(res.getOutputStream());
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
-        document.add(new Paragraph(contenido));
-        mav.addObject("id", idUsuario);
-        mav.addObject("product", new Product());
-        mav.setViewName("sub/showbuy");
-        return mav;
+        document.setMargins(20, 20, 20, 20);
+
+        
+        
+        document.add(new Paragraph("Nombre del Producto: " + productos.get("Pro_Nombre").toString()));
+        document.add(new Paragraph("Precio del Producto: " + productos.get("Pro_Precio").toString()));
+        document.add(new Paragraph("Cantidad Producto: " + productos.get("Car_Cantidad").toString()));
+        document.add(new Paragraph("Total: " + productos.get("Car_Precio").toString()));
+
+        /*productos.forEach(k,v) -> (
+            
+            document.add(new Paragraph("Nombre del Producto: " + productos.get("Pro_Nombre").toString()));
+            document.add(new Paragraph("Precio del Producto: " + productos.get("Pro_Precio").toString()));
+            document.add(new Paragraph("Cantidad Producto: " + productos.get("Car_Cantidad").toString()));
+            document.add(new Paragraph("Total: " + productos.get("Car_Precio").toString()));
+        
+        
+        );*/
+ /*
+            float pointColumnWidths1[] = {150f, 150f};
+            Table table = new Table(3);
+            Cell cel1 = new Cell();
+            Cell cel2 = new Cell();
+            Cell cel3 = new Cell();
+            
+            table.addCell(cel1);
+            table.addCell(cel2);
+            table.addCell(cel3);
+         */
+        document.close();
+
     }
 
     public Product cargarusuariobyid(int id) {

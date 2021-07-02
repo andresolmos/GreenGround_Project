@@ -74,7 +74,6 @@
                     <table align="center" border="1px" >
                         <tr id="firstrow">
                             <th>Nombre</th>
-                            <th>Imagen</th>
                             <th>Descripcion</th>
                             <th>Precio</th>
                             <th>Stock</th>
@@ -85,10 +84,9 @@
                             <c:forEach var="dato" items="${product}" > 
                         <tr>
                             <td><c:out value="${dato.Pro_Nombre}"></c:out> </td>   
-                            <td><c:out value="${dato.Pro_Foto}"></c:out> </td>
                             <td><c:out value="${dato.Pro_Descripcion}"></c:out> </td>
                             <td><c:out value="${dato.Pro_Precio}"></c:out> </td>
-                            <td><c:out value="${dato.Pro_Stock}"></c:out> </td>
+                            <td><c:out value="${dato.Pro_Stock}"></c:out> kg</td>
                             <td><c:out value="${dato.pro_fecha_lote}"></c:out> </td>
                             <td><c:out value="${dato.pro_fecha_vencimiento}"></c:out> </td>
                             <td>
