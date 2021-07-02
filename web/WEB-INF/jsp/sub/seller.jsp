@@ -34,7 +34,7 @@
                 <a href="sellprods.htm?id=${data.usu_id_usuario}" >Productos vendidos <i class="fas fa-clipboard-list"></i></a>
                 <a class="activeOff" target="central" style="float:right" onclick="myFunction()">Cerrar Sesion  <i class="fas fa-power-off"></i></a>
                 <a class="active1" href="config.htm?id=${data.usu_id_usuario}&rol=Vendedor" style="float:right " >Configuracion <i class="fas fa-users-cog"></i></a>
-                <a class="active1" href="segcar.htm?idusu=${data.usu_id_usuario}&rol=Comprador" style="float:right " >Cambiar de rol</a>
+                <a class="active1" href="segcar.htm?idusu=${data.usu_id_usuario}&rol=Comprador" style="float:right " >Cambiar de rol <i class="fas fa-exchange-alt"></i></a>
                 <a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a>
             </div>
         </header>
@@ -91,10 +91,15 @@
                             <td><c:out value="${dato.pro_fecha_vencimiento}"></c:out> </td>
                             <td>
                                 <a href="modprod.htm?id=${data.usu_id_usuario}&idPro=${dato.IdProducto}"><button type="button" class="btn btn-success"><i class="fas fa-edit" value="modificar"></i></button></a>
-                                <a href="delprod.htm?id=${dato.usu_id}&idPro=${dato.IdProducto}"><button type="button" class="btn btn-danger"><i class="fas fa-trash-alt" value="borrar"></i></button></a>
+                            <a href="delprod.htm?id=${dato.usu_id}&idPro=${dato.IdProducto}" onclick="mydelete()"><button type="button" class="btn btn-danger"><i class="fas fa-trash-alt" value="borrar"></i></button></a>
                             </td>
                         </tr>
-
+<script>
+                function mydelete()
+                {
+                  alert("usted esta eliminando este elemento <c:out value="${dato.Pro_Nombre}"></c:out>")
+                }
+            </script>
                         </c:forEach>
                 </c:forEach>
                 </table>

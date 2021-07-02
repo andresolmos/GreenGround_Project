@@ -43,6 +43,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class carcontroller {
 
     private JdbcTemplate jdbcTemplate;
+    
+    private cardao carDaoImp;
 
     /**
      *
@@ -51,6 +53,7 @@ public class carcontroller {
     public carcontroller() {
         dbconect con = new dbconect();
         this.jdbcTemplate = new JdbcTemplate(con.conectar());
+        this.carDaoImp = new cardao();
     }
 
     @RequestMapping(value = "sub/buyer.htm", method = RequestMethod.GET)
@@ -239,7 +242,7 @@ public class carcontroller {
         cardao carda = new cardao();
         clidao clida = new clidao();
         DaoProduct prod = new DaoProduct();
-        List astra = carda.searchitem(id);
+        HashMap astra = carda.searchitem(id);
         int o = 1;
         do {
             int idpro = Integer.parseInt(request.getParameter("idpro_" + o));
@@ -266,10 +269,10 @@ public class carcontroller {
    @RequestMapping(value = "sub/pdfdown.htm", method = RequestMethod.GET)
     public void cretePdf(HttpServletRequest req, HttpServletResponse res) throws IOException, ServletException {
         res.setContentType("application/pdf");
-        cardao carda = new cardao();
         int idUsuario = Integer.parseInt(req.getParameter("idusu"));
         HashMap productos = new HashMap();
-        productos = (HashMap) carda.searchitem(idUsuario);
+        productos = carDaoImp.searchitem(idUsuario);
+        carDaoImp.deletecar(idUsuario);
         /*
         
         {IdProducto=19, Car_Precio=100000.0, Car_Item=152, usu_id_usuario=12, 

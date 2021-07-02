@@ -31,7 +31,7 @@
                         <a class="active" href="shopcar.htm?id_usu=${data.usu_id_usuario}">Mi Carrito <i class="fas fa-shopping-cart"></i></a>
                         <a class="activeOff" target="central" style="float:right" onclick="myFunction()">Cerrar Sesion  <i class="fas fa-power-off"></i></a>
                         <a class="active1" style="float:right " href="config.htm?id=${data.usu_id_usuario}&rol=Comprador">Configuracion <i class="fas fa-users-cog"></i></a>
-                        <a class="active1" href="segcar.htm?idusu=${data.usu_id_usuario}&rol=Vendedor" style="float:right " >Cambiar de rol</a>
+                        <a class="active1" href="segcar.htm?idusu=${data.usu_id_usuario}&rol=Vendedor" style="float:right " >Cambiar de rol <i class="fas fa-exchange-alt"></i></a>
                         <a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a>
                     </div>
                <%-- </ul>  --%>

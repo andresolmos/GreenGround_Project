@@ -48,7 +48,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td> <form:label  path="Stock">Stock producto </form:label></td>
+                    <td> <form:label  path="Stock">Stock producto en Kg</form:label></td>
                     <td><form:input min="1" type="number" required="true" style="width:350px" placeholder="50" cssClass="form-control" path="Stock" class="input"></form:input></td>
                 </tr>
                 <tr>

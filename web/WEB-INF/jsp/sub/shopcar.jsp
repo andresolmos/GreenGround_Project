@@ -100,11 +100,21 @@
                                             </td>   
                                             <td><c:out value="$ ${dato.Car_Precio}"> </c:out></td>                           
                                             <td class="text-center">
-                                                <button type="submit"  class="btn btn-success"><i class='fas fa-edit'></i></button>
+                                                <button type="submit" onclick="mymod()" class="btn btn-success"><i class='fas fa-edit'></i></button>
                                         </form>
-                                        <a href="decar.htm?IdProducto=${dato.IdProducto}&idusu=${dato.usu_id_usuario}"  class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>   
+                                            <a href="decar.htm?IdProducto=${dato.IdProducto}&idusu=${dato.usu_id_usuario}" onclick="myFunction()"  class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>   
                                     </td>                           
                                 </tr>
+                                <script>
+                function myFunction()
+                {
+                  alert("usted esta eliminando este elemento <c:out value="${dato.Pro_Nombre}"></c:out>")
+                }
+                function mymod()
+                {
+                  alert("usted esta alterarndo este elemento <c:out value="${dato.Pro_Nombre}"></c:out>")
+                }
+            </script>
                             </c:forEach>
                         </tbody>
                     </table>                    
@@ -123,7 +133,13 @@
                                 <a class="form-control text-center">$ <c:out value="${dato.Precio}"></c:out></i></a>
                             </div><br>
                             <div class="card-footer">
-                                <a href="elicar.htm?idusu=${dato.usu_id_usuario}" class="btn btn-danger btn-block">Vaciar Carrito</a><br>
+                                <script>
+                function myempty()
+                {
+                  alert("usted esta vaciando el carrito")
+                }
+            </script>
+            <a href="elicar.htm?idusu=${dato.usu_id_usuario}" onclick=" myempty()" class="btn btn-danger btn-block">Vaciar Carrito</a><br>
                                 <c:forEach var="data" items="${product}"> 
                                 <c:set var="contador" value="${contador + 1}" />
                                 <form  action="showbuy.htm">

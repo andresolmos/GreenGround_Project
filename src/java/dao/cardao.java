@@ -10,9 +10,12 @@ import dbconect.dbconect;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.util.LinkedCaseInsensitiveMap;
 
 /**
  *
@@ -66,13 +69,19 @@ public class cardao {
         this.jdbctemplate.update(sql);
     }
 
-    public List searchitem(int id) {
-        List Product = new ArrayList();
+    public HashMap searchitem(int id) {
+        HashMap productosOrganizados = new HashMap();
         this.jdbctemplate = new JdbcTemplate(con.conectar());
         String sql = "select * from tbcarrito inner join tbproducto on tbproducto.IdProducto = tbcarrito.IdProducto  where usu_id_usuario = '" + id + "'";
-        Product = this.jdbctemplate.queryForList(sql);
-        return Product;
-        }
+        
+        List products = this.jdbctemplate.queryForList(sql);
+        
+        productosOrganizados = (HashMap) products.get(0);
+
+        
+
+        return productosOrganizados;
+    }
         
     public void addcar(int id, int idpro, String nonbre, int stock, String Descripcion, double Precio) {
         this.jdbctemplate = new JdbcTemplate(con.conectar());
